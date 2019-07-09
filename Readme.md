@@ -62,3 +62,5 @@ This is a dangerous combination…
 I'm Pascal and I want you to talk to me!
 
 {[twitter],[github]}.com/killercup
+
+Slides: [git.io/rust-macro-madness](https://git.io/rust-macro-madness)
