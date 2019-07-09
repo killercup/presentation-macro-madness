@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Pascal Hertleif">
+  <meta name="dcterms.date" content="2019-03-14">
+  <title>Macro Madness</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="template/css/reset.css">
+  <link rel="stylesheet" href="template/css/reveal.css">
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="template/css/theme/pascal-light.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'template/css/print/pdf.css' : 'template/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="template/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Macro Madness</h1>
+  <p class="author">Pascal Hertleif</p>
+  <p class="date">2019-03-14</p>
+</section>
+
+<section id="hi-im-pascal-hertleif" class="title-slide slide level1"><h1>Hi, I’m Pascal Hertleif</h1><ul>
+<li>Senior dev here at TTC</li>
+<li>Dev tools team</li>
+<li>CLI WG</li>
+<li>{<a href="https://twitter.com/killercup">twitter</a>,<a href="https://github.com/killercup">github</a>}.com/killercup</li>
+</ul></section>
+<section><section id="what-this-talk-will-teach-you" class="title-slide slide level1"><h1>What this talk will teach you</h1></section><section class="slide level2">
+
+<p><img data-src="images/before.svg" /></p>
+</section><section class="slide level2">
+
+<p><img data-src="images/after.svg" /></p>
+</section><section class="slide level2">
+
+<p>Just kidding!</p>
+<p>This topic is <em>way</em> too large for this short a talk</p>
+</section><section class="slide level2">
+
+<p>I just don’t want to write the same code over and over again</p>
+<div class="fragment">
+<p>I also like to make up abstract solution</p>
+</div>
+<div class="fragment">
+<p>This is a dangerous combination…</p>
+</div>
+</section></section>
+<section id="case-study-1-a-repetitive-impl" class="title-slide slide level1"><h1>Case Study 1: A repetitive <code>impl</code></h1></section>
+<section id="case-study-2-a-byte-patter" class="title-slide slide level1"><h1>Case Study 2: A byte patter</h1></section>
+<section id="case-study-3-this-escalated-quickly" class="title-slide slide level1"><h1>Case Study 3: This escalated quickly</h1></section>
+<section id="thank-you" class="title-slide slide level1"><h1>Thank you!</h1><p>I’m Pascal and I want you to talk to me!</p>
+<p>{<a href="https://twitter.com/killercup">twitter</a>,<a href="https://github.com/killercup">github</a>}.com/killercup</p></section>
+    </div>
+  </div>
+
+  <script src="template/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: 0,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'template/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'template/plugin/zoom-js/zoom.js', async: true },
+          { src: 'template/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>

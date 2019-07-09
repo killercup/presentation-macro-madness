@@ -10,7 +10,7 @@ slides:
 	--template template/index.html \
 	-V theme=pascal-light \
 	-V revealjs-url=template \
-	--standalone --slide-level 1 \
+	--standalone --slide-level 2 \
 	# --self-contained
 
 pdf: slides
