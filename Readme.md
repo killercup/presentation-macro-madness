@@ -1,7 +1,7 @@
 ---
 title: "Macro Madness"
 author: Pascal Hertleif
-date: 2019-03-14
+date: 2019-07-09
 categories:
 - rust
 - presentation
