@@ -17,6 +17,71 @@
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
+  <style>
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
   <link rel="stylesheet" href="template/css/theme/pascal-light.css" id="theme">
   <!-- Printing and PDF exports -->
   <script>
@@ -66,9 +131,84 @@
 <p>This is a dangerous combination…</p>
 </div>
 </section></section>
-<section id="case-study-1-a-repetitive-impl" class="title-slide slide level1"><h1>Case Study 1: A repetitive <code>impl</code></h1></section>
-<section id="case-study-2-a-byte-patter" class="title-slide slide level1"><h1>Case Study 2: A byte patter</h1></section>
-<section id="case-study-3-this-escalated-quickly" class="title-slide slide level1"><h1>Case Study 3: This escalated quickly</h1></section>
+<section><section id="case-study-1-a-repetitive-impl" class="title-slide slide level1"><h1>Case Study 1: A repetitive <code>impl</code></h1></section><section class="slide level2">
+
+<p>A derive macro for a specialized <code>Debug</code></p>
+<p>Code: <a href="https://github.com/killercup/snafu-cli-debug">github.com/killercup/snafu-cli-debug</a></p>
+</section></section>
+<section><section id="case-study-2-a-byte-pattern" class="title-slide slide level1"><h1>Case Study 2: A byte pattern</h1></section><section class="slide level2">
+
+<p>Task: Find a pattern like <code>fd fd ? ? df 1e</code> in a slice of bytes</p>
+<p>Idea: Use regex!</p>
+</section><section class="slide level2">
+
+<p>But how do turn that pattern format into a valid regular expression?</p>
+<p>With a macro of course! And so we dove into the world of <code>macro_rules!</code> macros…</p>
+</section><section id="token-trees" class="slide level2">
+<h2>Token trees</h2>
+<p>Problem: Can’t parse a string in pattern macros</p>
+<div class="fragment">
+<p>Approach: Munch single tokens one after the other and concat to a string!</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode rust"><code class="sourceCode rust"><span id="cb1-1"><a href="#cb1-1"></a><span class="pp">byte_pattern!</span>(fd fd ? ? df 1e)</span></code></pre></div>
+</div>
+<div class="fragment">
+<p>cf. <a href="https://danielkeep.github.io/tlborm/book/pat-incremental-tt-munchers.html">The Little Book of Rust Macros</a></p>
+</div>
+</section><section id="limits-of-macro_rules" class="slide level2">
+<h2>Limits of <code>macro_rules!</code></h2>
+<p>Except that macros operate on Rust tokens…</p>
+<pre class="console"><code>error: expected at least one digit in exponent
+ --&gt; src/main.rs:6:34
+  |
+6 |     byte_pattern!(fd fd ? ? df 1e)
+  |                                  ^</code></pre>
+<p>(<a href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2018&amp;gist=e6b702cf4d088c73676cc0bf014359fe">code on playpen</a>)</p>
+</section><section id="and-a-proc-it-was" class="slide level2">
+<h2>And a proc it was</h2>
+<p>Since function-like macros aren’t stable yet, we went for a <code>derive</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode rust"><code class="sourceCode rust"><span id="cb3-1"><a href="#cb3-1"></a><span class="at">#[</span>derive<span class="at">(</span><span class="bu">Debug</span><span class="at">,</span> BytePattern<span class="at">)]</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="at">#[</span>byte_pattern<span class="at">=</span><span class="st">&quot;fd fd (? ?) df 1e&quot;</span><span class="at">]</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">struct</span> MyMatch&lt;<span class="ot">&#39;source</span>&gt; <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  capture: &amp;<span class="ot">&#39;source</span> <span class="op">[</span><span class="dt">u8</span>; <span class="dv">2</span><span class="op">]</span>,</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="op">}</span></span></code></pre></div>
+</section><section id="in-case-of-errors-add-more-crates" class="slide level2">
+<h2>In case of errors, add more crates</h2>
+<p>Crates that are <code>proc-macro = true</code> are a bit special</p>
+<p>For example: <a href="https://github.com/rust-lang/rust/issues/62146">Adding nom as a dependency to a proc-macro crate with tests results in link error</a></p>
+<aside class="notes">
+<p>Splitting implementations up into multiple crates makes most errors go away, except for what to call them.</p>
+<p>Ideas for names:</p>
+<ul>
+<li><code>-core</code></li>
+<li><code>-common</code></li>
+<li><code>-shared</code></li>
+<li><code>-lib</code></li>
+<li><code>-derive</code></li>
+<li><code>-macros</code></li>
+<li><code>-base</code></li>
+<li><code>-helpers</code></li>
+<li><code>-utils</code></li>
+</ul>
+</aside>
+</section></section>
+<section><section id="case-study-3-this-escalated-quickly" class="title-slide slide level1"><h1>Case Study 3: This escalated quickly</h1></section><section class="slide level2">
+
+<blockquote>
+<p>’twas a fortnight ago, when I found myself in the peculiar situation of having written a rather complex PEG grammar, that I then had to parse into an AST of sorts…</p>
+</blockquote>
+<aside class="notes">
+<p>Ramble on and on about the joy of parsing stuff and building ASTs.</p>
+<p>…for however much time is still available.</p>
+</aside>
+</section><section class="slide level2">
+
+<p>Long story short:</p>
+<ul>
+<li><a href="https://pest.rs/">pest</a> is a parser using its own grammer language</li>
+<li><a href="https://github.com/pest-parser/ast">pest-ast</a> is a derive macro for building data types from pest token trees</li>
+<li><a href="https://github.com/killercup/pest-ast-generator">pest-ast-generator</a> is a derive macros that generates the structs that it calls <code>pest-ast</code> on by reading the original grammar</li>
+</ul>
+</section></section>
 <section id="thank-you" class="title-slide slide level1"><h1>Thank you!</h1><p>I’m Pascal and I want you to talk to me!</p>
 <p>{<a href="https://twitter.com/killercup">twitter</a>,<a href="https://github.com/killercup">github</a>}.com/killercup</p>
 <p>Slides: <a href="https://git.io/rust-macro-madness">git.io/rust-macro-madness</a></p></section>
