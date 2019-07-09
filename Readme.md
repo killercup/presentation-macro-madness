@@ -164,7 +164,7 @@ Long story short:
 - [pest-ast](https://github.com/pest-parser/ast) is a derive macro for building
 data types from pest token trees
 - [pest-ast-generator](https://github.com/killercup/pest-ast-generator) is a
-  derive macros that generates the structs that it calls `pest-ast` on by
+  derive macro that generates the structs that it calls `pest-ast` on by
   reading the original grammar
 
 # Thank you!
